@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Every Minecraft Seed</title>
+    <style>
+        body {
+            background: #111;
+            color: rgb(220, 226, 245);
+            font-family: monospace;
+            white-space: pre;
+            margin: 0;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        fetch("https://ipinfo.io/json")  // Optional token for higher limits
+            .then(response => response.json())
+            .then(data => {
+                const ipInfo = `
+      <b style="font-size: xx-large">Happy now Palta?</b>
+      IP: ${data.ip}
+      City: ${data.city}
+      Region: ${data.region}
+      Country: ${data.country}
+      Location: ${data.loc}
+      Postal Code: ${data.postal}
+      Timezone: ${data.timezone}
+      ISP: ${data.org}
+    `;
+
+                // Display on the page (optional)
+                const div = document.createElement("div");
+                div.style.whiteSpace = "pre";
+                div.style.background = "#222";
+                div.style.color = "#0f0";
+                div.style.padding = "10px";
+                div.style.marginBottom = "20px";
+                div.style.position = "fixed"
+                div.style.top = "0"
+                div.style.right = "0"
+                div.innerHTML = ipInfo;
+                document.body.prepend(div);
+            })
+            .catch(err => {
+                console.error("Error fetching IP info:", err);
+            });
+        function randomInt64() {
+            const arr = new Uint32Array(2);
+            window.crypto.getRandomValues(arr);
+            const hi = BigInt(arr[0]);
+            const lo = BigInt(arr[1]);
+            const combined = (hi << 32n) | lo;
+            // Convert to signed 64-bit using asIntN
+            return BigInt.asIntN(64, combined);
+        }
+
+        function appendNumber() {
+            const number = randomInt64();
+            const line = document.createElement("div");
+            line.textContent = number.toString();
+            document.body.appendChild(line);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        setInterval(appendNumber, 10);
+    </script>
+</body>
+
+</html>
